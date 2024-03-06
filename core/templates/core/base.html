@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+
+    <title>{% block title %}{% endblock %} | СООП ТПУ #13</title>
+</head>
+<body>
+    <div class="container">
+    <div class="row mt-2">
+        <a href="{% url 'home' %}" class="col-md-6 text-decoration-none text-dark "> <div class=" d-flex "><img width="50px" height="50px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAM4AAADOCAMAAABBwc32AAAACVBMVEUAAABuuEX5+fmG6jQjAAABZklEQVR4nO3bsW3DABAEQdr9Fy3AmYNjIK1AgpgvYHFTwB+/j7rj6gHtPZDz8/b9b11b+evg5ENwVgcnH4KzOjj5EJzVwcmH4KwOTj4EZ3Vw8iE4q4OTD8FZHZx8CM7q4ORDcFYHJx+Cszo4+RCc1cHJh+CsDk4+BGd1cPIhOKuDkw/BWR2cfAjO6uDkQ3BWBycfgrM6OPkQnNW5H+ejK38QcHBOD2ceDs7p4czDwTm9B3KOt+8bnI/W4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4DyT0xwODg4ODg4Ozs0411ZwvjMEZ3Vw8iE4q4OTD8FZHZx8CM7q4ORDcFYHJx+Cszo4+RCc1cHJh+CsDk4+BGd1cPIhOKuDkw/BWR2cfAjO6uDkQ3BWBycfgrM6OPkQnNXByYfgrA5OPgRndXDyITirg5MPwVmdB3IedDh3vhfp24XfKeYVhwAAAABJRU5ErkJggg==" alt=""> <div class="h2 fw-bold ml-2 d-flex pt-2" >СООП  ТПУ #13</div></div></a>
+        <div class="col-md-6 d-flex justify-content-md-end pt-2">
+            {% if request.user.is_authenticated %}
+            <span>{{request.user.first_name }}  {{request.user.last_name}}</span>
+            <a href="{% url 'logout' %}" class="text-decoration-none ml-3"> Выйти из аккаунта</a>
+            {% else %}
+            <a href="{% url 'login' %}" class="text-decoration-none">Войти</a>
+            <a href="{% url 'signup' %}" class="text-decoration-none ml-3">Регистрация</a>
+            {% endif %}
+        </div>
+    </div></div>
+
+    <hr>
+    {% block content %}
+    {% endblock %}
+   <br> <br>
+    <footer class=" fixed-bottom  text-center shadow mt-3" style="background-color: rgb(196, 190, 190); font-size: small; opacity: 0.80
+    
+     ;" >
+       <span class="" ><b> Обнаружили ошибку?</b> сообщите разработчику <a style="font-size: 100%;" href="https://vk.com/fayziev_m" class="text-decoration-none">Мансур (VK @fayziev_m)</a></span>
+    </footer>
+  
+</body>
+</html>

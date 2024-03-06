@@ -1,0 +1,60 @@
+{% extends 'core/base.html' %}
+	{% block title %}Главная{% endblock %}
+	
+
+
+    {% block content %}
+	<div class="container ">
+        {% if request.user.is_superuser %}
+        <form action="" method="POST" class="form-group col-md-6 mx-auto border rounded">
+            {% csrf_token %}
+            <h2 class="my-3 text-center">Нарушения СООП</h2>
+            <p><input class="form-control" placeholder="Номер комната..." type="text" name="room" id=""></p>
+            <p><input class="form-control" placeholder="Фамилия Имя (если нарушитель один)..." type="text" name="fio" id=""></p>
+            <div>Несколько вариантов:</div>
+            <div class="form-check form-check-inline mt-2">
+                <input name="camCheck" class="form-check-input" type="checkbox" id="inlineCheckbox1" value="Шумели в комнате">
+                <label class="form-check-label" for="inlineCheckbox1">Шумели в комнате</label>
+            </div>
+            <div class="form-check ">
+                <input name="camCheck" class="form-check-input" type="checkbox" id="inlineCheckbox2" value="Распитие алкоголя">
+                <label class="form-check-label" for="inlineCheckbox2">Распитие алкоголя</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input name="camCheck" class="form-check-input" type="checkbox" id="inlineCheckbox3" value="Курение">
+                <label class="form-check-label" for="inlineCheckbox3">Курение</label>
+            </div><br>
+            <div class="form-check form-check-inline">
+                <input name="camCheck" class="form-check-input" type="checkbox" id="inlineCheckbox4"  value="Шумели в коридоре">
+                <label class="form-check-label" for="inlineCheckbox4">Шумели в коридоре</label>
+            </div>
+            <p class="mt-2"> <div class="my-1 mb-2">Свой вариант:</div><textarea class="form-control"  name="comment" id="" cols="30" rows="3" placeholder="Напиши свой вариант..."></textarea></p>
+            <p><button class="btn btn-warning"  type="submit">Отправить</button><br></p>
+            
+
+        </form>
+        {% endif %}
+        
+        <h4 class="text-center "><i class="fas fa-home"></i>  Комната <span class="fw-bold">{{room_user}}</span><samp class="text-secondary">({{vios_len}})</samp></h4>
+        {% if vios %}
+            {% for vio in vios %}
+            <div class="alert alert-secondary  text-dark shadow col-md-6 mx-auto p-3 border" style="margin-top: 20px; background-color: rgb(244, 227, 227);"> 
+                <div class="mb-2 " style="font-size: 80%;">{{ vio.date }}</div>
+                {% if vio.comment %}
+                <span class="fw-bold">{{vio.comment}}</span><br>
+                {% else %}
+                <span class="fw-bold">Причина не указна</span><br>
+                {% endif %}
+                {% if vio.fio %}
+                <div class="mt-2 ">Нарушитель: {{vio.fio}}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        {% else %} 
+        <br><h2 class="text-center text-success"> Нет нарушений:)</h2>
+        {% endif %}
+        
+        
+
+    </div>
+    {% endblock %}
