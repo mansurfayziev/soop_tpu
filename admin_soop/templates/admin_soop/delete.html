@@ -1,0 +1,40 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Удалить нарушение{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="col-md-6 mx-auto">
+    <h2>Удалить нарушение</h2>
+    <p>Вы уверены, что хотите удалить нарушение?</p>
+    <p class="bg-light p-3 rounded shadow-sm"><strong class="h5 text-center">Нарушение</strong> <br>
+         <strong>Комната:</strong> {{vio.room}} <br> 
+          <strong>Описание:</strong> {{ vio.comment }} <br>
+          {% if vio.fio %} <strong>Нарушитель:</strong> {{vio.fio}} <br> {% endif %}
+          <strong>Oтправитель:</strong> {{vio.soop_fio}} <br>
+           <strong>Дата: </strong>{{vio.date}}
+        
+        </p>
+
+    <form action="" method="post" class="">
+        {% csrf_token %}
+        <label for="password">Введите пароль для подтверждения:</label>
+        <input type="password" id="password" name="password" class="form-control">
+        <button type="submit" class="btn btn-danger mt-2">Удалить</button> <a href="{% url 'admin_page' %} " class="btn btn-warning mt-2 ml-2">Отмена</a>
+    </form>
+
+    
+
+    {% if messages %}
+            {% for message in messages %}
+                
+                <div class="alert alert-danger d-flex align-items-center mt-2" role="alert">
+                    <div>
+                      {{message}}
+                    </div>
+                </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+</div>
+{% endblock %}

@@ -9,5 +9,14 @@
 -DONE Post Violation
 -DONE Read Violation
 
+Create admin soop
+-DONE create app "admin_soop"
+-DONE create template
+-DONE read all violations
+-DONE delete violation
+-search violation
+-filters
+
+
 
 

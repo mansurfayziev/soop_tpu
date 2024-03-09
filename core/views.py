@@ -26,20 +26,20 @@ def home(request):
             cam_checks = request.POST.getlist('camCheck')
             f=''
             for check in cam_checks:
-                f+='- '+check+'\n'
-            f=f[:-1]
+                f+=check+'. '
             if comment:
-                if f=='':
-                    f+='- '+comment
-                else:
-                    f+="\n"+'- '+comment
-            
+                f+=comment+'. '
 
 
             rr=Violation(room=room, fio=fio,comment=f,soop_fio=soop )
-            if room:
+            if room and room.isnumeric():
                 rr.save()
+                messages.success(request, f'Успешно); Нарушения сохранено! ({room} комната)')
+                
                 return redirect('home')
+            else:
+                messages.error(request, 'Ошибка:( Номер комната не указна!')
+               
             
  
         return render(request, 'core/home.html',context)

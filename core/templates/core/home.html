@@ -12,7 +12,7 @@
             <p><input class="form-control" placeholder="Номер комната..." type="text" name="room" id=""></p>
             <p><input class="form-control" placeholder="Фамилия Имя (если нарушитель один)..." type="text" name="fio" id=""></p>
             <div>Несколько вариантов:</div>
-            <div class="form-check form-check-inline mt-2">
+            <div class="form-check  mt-2">
                 <input name="camCheck" class="form-check-input" type="checkbox" id="inlineCheckbox1" value="Шумели в комнате">
                 <label class="form-check-label" for="inlineCheckbox1">Шумели в комнате</label>
             </div>
@@ -20,15 +20,37 @@
                 <input name="camCheck" class="form-check-input" type="checkbox" id="inlineCheckbox2" value="Распитие алкоголя">
                 <label class="form-check-label" for="inlineCheckbox2">Распитие алкоголя</label>
             </div>
-            <div class="form-check form-check-inline">
+            <div class="form-check">
                 <input name="camCheck" class="form-check-input" type="checkbox" id="inlineCheckbox3" value="Курение">
                 <label class="form-check-label" for="inlineCheckbox3">Курение</label>
-            </div><br>
-            <div class="form-check form-check-inline">
+            </div>
+            <div class="form-check">
                 <input name="camCheck" class="form-check-input" type="checkbox" id="inlineCheckbox4"  value="Шумели в коридоре">
                 <label class="form-check-label" for="inlineCheckbox4">Шумели в коридоре</label>
             </div>
-            <p class="mt-2"> <div class="my-1 mb-2">Свой вариант:</div><textarea class="form-control"  name="comment" id="" cols="30" rows="3" placeholder="Напиши свой вариант..."></textarea></p>
+            <p class="mt-2"> <div class="my-1 mb-2">Свой вариант:</div><textarea class="form-control"  name="comment" id="" cols="30" rows="2" placeholder="Напиши свой вариант..."></textarea></p>
+           
+            {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                  <div class="alert alert-success d-flex align-items-center" role="alert">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+                    <div>
+                      {{message}}
+                    </div>
+                  </div>
+                {% endif %}
+                {% if message.tags == 'error' %}
+                <div class="alert alert-danger d-flex align-items-center" role="alert">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                    <div>
+                      {{message}}
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+            {% endif %}
+
             <p><button class="btn btn-warning"  type="submit">Отправить</button><br></p>
             
 
