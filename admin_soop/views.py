@@ -13,24 +13,26 @@ def user_is_admin(user):
 def adminView(request):
     if request.method == 'POST':
         room = request.POST.get('query', '')
+        if room.isnumeric():
+            vios=Violation.objects.filter(room=room)[::-1]
+            akts=Akt.objects.filter(room=room)[::-1]
+            vios2 = Violation.objects.all().order_by('-id')[:5]
+            if vios:
+                context = {
+                    'vios': vios,
+                    'akts': akts,
+                    'vios2': vios2,
+                    'room': room,
+                    'count': len(vios),
+                    'count2': len(akts),
 
-        vios=Violation.objects.filter(room=room)[::-1]
-        akts=Akt.objects.filter(room=room)[::-1]
-        vios2 = Violation.objects.all().order_by('-id')[:5]
-        if vios:
-            context = {
-                'vios': vios,
-                'akts': akts,
-                'vios2': vios2,
-                'room': room,
-                'count': len(vios),
-                'count2': len(akts),
-
-            }
-            return render(request, 'admin_soop/index.html', context)
+                }
+                return render(request, 'admin_soop/index.html', context)
+            else:
+                messages.error(request, 'Комната не найдено.')
+                return redirect('admin_page')
         else:
-            messages.error(request, 'Комната не найдено.')
-            return redirect('admin_page')
+            messages.error(request, 'Напишите номер комнату.')
 
     vios = Violation.objects.all()[::-1]
     akts = Akt.objects.all()[::-1]

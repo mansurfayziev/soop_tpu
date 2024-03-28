@@ -3,15 +3,19 @@
 {% block title %}Админстратор{% endblock %}
 
 {% block content %}
+<div class="position-fixed bottom-0 end-0" style="z-index: 1; padding-bottom: 2px; margin-right: 2px; display: flex; flex-direction: column; text-align: center; font-size: 80%;">
+    <a href="#akts_page" class="text-decoration-none text-white bg-danger  py-1  rounded-top ">Акты</a>
+    <a href="#vios_page" class="text-decoration-none text-dark bg-warning   px-1 py-1   rounded-bottom ">Нарушении</a>
+</div>
 <div class="container">
     <div class="row">
         <div class="col-md-4 mt-4 ">
             <a href="{% url 'download_excel' %}" class="btn btn-outline-dark mb-4" style="width:100%;">Скачать Excel файл</a>
-            <form action="" method="post" class="d-flex">
+            <form action="" method="post" class="d-flex "  style="z-index: 1;">
                 {% csrf_token %}
                 <span class="h3">Комната: </span>
-                <input type="text" class="form-control ml-2" name="query">
-                <input type="submit" class="ml-2 btn btn-outline-success" value="Найти">
+                <input type="text" class="form-control ml-2" name="query" style="height: 30px;">
+                <input type="submit" class="ml-2 btn btn-outline-success" value="Найти" >
 
             </form>
 
@@ -26,7 +30,7 @@
             </div>
             {% endif %}
 
-            {% if count %}<div class="mt-4 "> <h6 class="text-secondary">Количество нарушения: <b class="h5">{{count}}</b>{% if count2 %} <span class="text-danger"> &ensp;&ensp; Акт:</span> <b class="h5 text-danger">{{count2}}</b> {% endif %}</h6></div>{% endif %}
+            {% if count %}<div class=" position-fixed bottom-0 start-0 bg-primary text-white  px-1 rounded-right rounded-top"  style="z-index: 1; margin: 2px; font-size: 70%;">Нарушении: <b >{{count}}</b>{% if count2 %} <span > &ensp;&ensp;Aкты: <b>{{count2}}</b></span> {% endif %}</div>{% endif %}
 
 
            <div class="mt-4 "> <a class="btn btn-primary " href="{% url 'admin_page' %}" >Очистить фильтры</a></div>
@@ -44,6 +48,7 @@
 
         </div>
         <div class="col-md-8">
+        <div id="akts_page"></div>
         {% if akts %}
         {% for vio in akts %}
         <div class="alert alert-secondary col-md-11 text-dark shadow mx-auto p-3 border " style="margin-top: 20px;  background-color: rgba(255, 0, 0, 0.657); ">
@@ -60,6 +65,7 @@
         </div>
         {% endfor %}
         {% endif %}
+        <div id="vios_page"></div>
         {% if vios %}
         {% if date %}<h4 class="text-center mt-3"> {{date}}</h4>{% endif %}
         {% if room %}<h4 class="text-center mt-3"><i class="fas fa-home"></i>  {{room}}</h4>{% endif %}
