@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 	{% block title %}Главная{% endblock %}
-	
+
 
 
     {% block content %}
@@ -9,7 +9,7 @@
         <form action="" method="POST" class="form-group col-md-6 mx-auto border rounded">
             {% csrf_token %}
             <h2 class="my-3 text-center">Нарушения СООП</h2>
-            <p><input class="form-control" placeholder="Номер комната..." type="text" name="room" id=""></p>
+            <p><input class="form-control" placeholder="Номер комнаты..." type="text" name="room" id=""></p>
             <p><input class="form-control" placeholder="Фамилия Имя (если нарушитель один)..." type="text" name="fio" id=""></p>
             <div>Несколько вариантов:</div>
             <div class="form-check  mt-2">
@@ -29,7 +29,7 @@
                 <label class="form-check-label" for="inlineCheckbox4">Шумели в коридоре</label>
             </div>
             <p class="mt-2"> <div class="my-1 mb-2">Свой вариант:</div><textarea class="form-control"  name="comment" id="" cols="30" rows="2" placeholder="Напиши свой вариант..."></textarea></p>
-           
+
             {% if messages %}
             {% for message in messages %}
                 {% if message.tags == 'success' %}
@@ -51,16 +51,35 @@
             {% endfor %}
             {% endif %}
 
-            <p><button class="btn btn-warning"  type="submit">Отправить</button><br></p>
-            
+           <p><button class="btn btn-warning"  type="submit">Отправить</button><button name="create_act" class="btn btn-danger fw-bold ml-2" style="background-color:red;">Акт</button><br></p>
+
 
         </form>
         {% endif %}
-        
-        <h4 class="text-center "><i class="fas fa-home"></i>  Комната <span class="fw-bold">{{room_user}}</span><samp class="text-secondary">({{vios_len}})</samp></h4>
+         <h4 class="text-center "><i class="fas fa-home"></i>  Комната <span class="fw-bold">{{room_user}}</span><samp class="text-secondary">({% if akts_len %}<span class="" style="color: red !important; font-weight: 900;">{{akts_len}}</span>|{% endif %}{{vios_len}})</samp></h4>
+
+
+        {% if akts %}
+        {% for vio in akts %}
+        <div class="alert alert-secondary   shadow col-md-6 mx-auto p-3 border" style="margin-top: 20px; background-color: rgb(255, 0, 0); color: white;">
+            <div class="mb-2 " style="font-size: 80%;">{{ vio.date }}   <div class="float-right text-warning" style="font-size: 180%;  font-weight:900;">АКТ</div></div>
+            {% if vio.comment %}
+            <span class="fw-bold">{{vio.comment}}</span><br>
+            {% else %}
+            <span class="fw-bold">Причина не указна</span><br>
+            {% endif %}
+            {% if vio.fio %}
+            <div class="mt-2 ">Нарушитель: {{vio.fio}}</div>
+            {% endif %}
+        </div>
+            {% endfor %}
+            <hr class="col-md-6 mx-auto">
+        {% endif %}
+
+
         {% if vios %}
             {% for vio in vios %}
-            <div class="alert alert-secondary  text-dark shadow col-md-6 mx-auto p-3 border" style="margin-top: 20px; background-color: rgb(244, 227, 227);"> 
+            <div class="alert alert-secondary  text-dark shadow col-md-6 mx-auto p-3 border" style="margin-top: 20px; background-color: rgb(244, 227, 227);">
                 <div class="mb-2 " style="font-size: 80%;">{{ vio.date }}</div>
                 {% if vio.comment %}
                 <span class="fw-bold">{{vio.comment}}</span><br>
@@ -68,15 +87,18 @@
                 <span class="fw-bold">Причина не указна</span><br>
                 {% endif %}
                 {% if vio.fio %}
+
                 <div class="mt-2 ">Нарушитель: {{vio.fio}}</div>
                 {% endif %}
+
+
             </div>
             {% endfor %}
-        {% else %} 
+        {% else %}
+
         <br><h2 class="text-center text-success"> Нет нарушений:)</h2>
         {% endif %}
-        
-        
+
 
     </div>
     {% endblock %}

@@ -6,26 +6,28 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4 mt-4 ">
+            <a href="{% url 'download_excel' %}" class="btn btn-outline-dark mb-4" style="width:100%;">Скачать Excel файл</a>
             <form action="" method="post" class="d-flex">
                 {% csrf_token %}
                 <span class="h3">Комната: </span>
                 <input type="text" class="form-control ml-2" name="query">
                 <input type="submit" class="ml-2 btn btn-outline-success" value="Найти">
-            
+
             </form>
-            
+
             {% if vios %}
             <div class="rounded bg-light shadow text-dark p-2 mt-4">
             <h5 class="fw-bold">Новые нарушения:</h5>
             {% for vio in vios2 %}
             {% if vio.room %}
-            <a href="{% url 'filRoom' vio.room %}" class="text-decoration-none "><div class="mt-2"><span class="fw-bold"> {{vio.room}}:</span> {{vio.comment}}  </div> </a>
+            <a href="{% url 'filRoom' vio.room %}" class="text-decoration-none "><div class="mt-2"><span class="fw-bold"> {{vio.room}}:</span>{% if vio.comment %} {{vio.comment}} {% else %} Причина не указна {% endif %}</div> </a>
             {% endif %}
             {% endfor %}
             </div>
             {% endif %}
 
-            {% if count %}<div class="mt-4 "> <h6 class="text-secondary">Количество нарушения: <b class="h5">{{count}}</b></h6></div>{% endif %}
+            {% if count %}<div class="mt-4 "> <h6 class="text-secondary">Количество нарушения: <b class="h5">{{count}}</b>{% if count2 %} <span class="text-danger"> &ensp;&ensp; Акт:</span> <b class="h5 text-danger">{{count2}}</b> {% endif %}</h6></div>{% endif %}
+
 
            <div class="mt-4 "> <a class="btn btn-primary " href="{% url 'admin_page' %}" >Очистить фильтры</a></div>
            {% if messages %}
@@ -41,13 +43,29 @@
 
 
         </div>
-        <div class="col-md-8"> 
+        <div class="col-md-8">
+        {% if akts %}
+        {% for vio in akts %}
+        <div class="alert alert-secondary col-md-11 text-dark shadow mx-auto p-3 border " style="margin-top: 20px;  background-color: rgba(255, 0, 0, 0.657); ">
+                    <div class="mb-2 " style="font-size: 80%;">   <div class="float-right text-warning" style="font-size: 180%;  font-weight:900;">АКТ</div></div>
+            {% if vio.comment %}
+            <div class="fw-bold text-dark">{{vio.comment}}</div>
+            {% else %}
+            <div class="fw-bold co">Причина не указна</div>
+            {% endif %} <br>
+            {% if vio.fio %}<div>Нарушитель: <b>{{vio.fio}}</b></div>{% endif %}
+            <a href="{% url 'filSoop_fio' vio.soop_fio %}" class="text-decoration-none"><div class="fs-6  ">Отправил: <b>{{vio.soop_fio}}</b></div></a>
+            <a href="{% url 'filRoom' vio.room %}" class="text-decoration-none"><div class=" fs-6 ">Комната нарушители: {{ vio.room }}</div></a>
+            <div class="text-secondary mb-2" > <a href="{% url 'filDate' vio.date.date %}" class="text-decoration-none"><i> {{vio.date}}</i></a>  <a href="{% url 'deleteAkt' vio.id %}" class="text-decoration-none text-dark ml-1" style="float: right;">Удалить</a> <a href="{% url 'updateAkt' vio.id %}" class="text-decoration-none text-primary " style="float: right;">Редактировать</a></div>
+        </div>
+        {% endfor %}
+        {% endif %}
         {% if vios %}
         {% if date %}<h4 class="text-center mt-3"> {{date}}</h4>{% endif %}
         {% if room %}<h4 class="text-center mt-3"><i class="fas fa-home"></i>  {{room}}</h4>{% endif %}
         {% for vio in vios %}
-        <div class="alert alert-secondary col-md-11 text-dark shadow mx-auto p-3 border " style="margin-top: 20px; background-color: rgb(239, 239, 239); "> 
-            
+        <div class="alert alert-secondary col-md-11 text-dark shadow mx-auto p-3 border " style="margin-top: 20px; background-color: rgb(239, 239, 239); ">
+
             {% if vio.comment %}
             <div class="fw-bold">{{vio.comment}}</div>
             {% else %}
@@ -56,10 +74,10 @@
             {% if vio.fio %}<div>Нарушитель: <b>{{vio.fio}}</b></div>{% endif %}
             <a href="{% url 'filSoop_fio' vio.soop_fio %}" class="text-decoration-none"><div class="fs-6  ">Отправил: <b>{{vio.soop_fio}}</b></div></a>
             <a href="{% url 'filRoom' vio.room %}" class="text-decoration-none"><div class=" fs-6 ">Комната нарушители: {{ vio.room }}</div></a>
-           <div class="text-secondary" > <a href="{% url 'filDate' vio.date.date %}" class="text-decoration-none"><i> {{vio.date}}</i></a> <a href="{% url 'delete' vio.pk %}" class="text-decoration-none text-danger" style="float: right;">Удалить</a></div>
+            <div class="text-secondary mb-2" > <a href="{% url 'filDate' vio.date.date %}" class="text-decoration-none"><i> {{vio.date}}</i></a>  <a href="{% url 'delete' vio.pk %}" class="text-decoration-none text-danger ml-1" style="float: right;">Удалить</a> <a href="{% url 'update' vio.pk %}" class="text-decoration-none text-primary" style="float: right;">Редактировать</a></div>
         </div>
         {% endfor %}
-        {% else %} 
+        {% else %}
         <br><h2 class="text-center text-success"> Нет нарушений:)</h2>
         {% endif %}
         </div>
